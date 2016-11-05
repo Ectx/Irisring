@@ -1,4 +1,4 @@
 # Irisring
-Color-matching
+Color-scheme
 
 https://ectx.github.io/Irisring/
