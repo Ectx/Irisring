@@ -163,14 +163,7 @@ li {
 /* 参照环控制器 */
 #rinctr {
     opacity: 0.03;
-    /*transition: opacity ease 0.3s;*/
-}/*
-#rinctr:hover {
-    opacity: 0.02;
 }
-#rinctr:active {
-    opacity: 0.05;
-}*/
 
 @keyframes bezAni {
     from { stroke-width: 0; }
@@ -271,6 +264,18 @@ li {
 #swicobox:active {
     background-color: rgba(96,96,96,0.2);
     transition: background ease 0s;
+}
+
+/* 切换添加模式 */
+.swiadd {
+    animation: swiaddAni 0.7s ease;
+}
+@keyframes swiaddAni {
+    0% { transform: scale(1); background-color: rgba(96,96,96,0); background-position: 0 0; }
+    10% { transform: scale(0.8); background-color: rgba(96,96,96,0); background-position: 0 0; }
+    20% { transform: scale(0.8); background-color: rgba(96,96,96,0); background-position: 0 0; }
+    80% { transform: scale(1.3); background-color: rgba(96,96,96,0.3); background-position: 0 -40px; }
+    100% { transform: scale(1); background-color: rgba(96,96,96,0); background-position: 0 -40px; }
 }
 
 /*----------------------------------------------------------------------*/

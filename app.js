@@ -1482,7 +1482,7 @@ function MarkCrt(svg, cs) {
                 i = '2';
                 break;
         }
-        dt.setAttribute('r', '5');
+        dt.setAttribute('r', '4');
         var rv = 1 / 3 * hmx, hh = CCC.Rhv(hl + +i * rv, hmx), x = Math.cos(hh) * len, y = Math.sin(hh) * len * fp, s = 'M0 0L' + x + ' ' + y;
         hh = CCC.Rhv(hl + rv * +i + rv * 0.5, hmx);
         x = Math.cos(hh) * len;
@@ -1533,6 +1533,8 @@ function RefreshColors() {
 }
 var ligOn;
 function SwiLig() {
+    var pathadder = document.getElementById('addpath');
+    pathadder.classList.add('swiadd');
     if (ligOn) {
         ligOn = false;
         CCC.Palette.ligRev = true;
@@ -1541,6 +1543,7 @@ function SwiLig() {
         vwbPad[1].setAttribute('stroke', '#000');
         selVwPath.setAttribute('stroke', '#111');
         document.getElementById('swilig').style.backgroundPosition = 'left';
+        pathadder.title = 'Add Dark Colors\n添加暗色系';
     }
     else {
         ligOn = true;
@@ -1550,6 +1553,7 @@ function SwiLig() {
         vwbPad[1].setAttribute('stroke', '#ccc');
         selVwPath.setAttribute('stroke', '#fff');
         document.getElementById('swilig').style.backgroundPosition = 'right';
+        pathadder.title = 'Add Bright Colors\n添加亮色系';
     }
     save('ligsw', +ligOn);
 }
@@ -1619,7 +1623,7 @@ function GrpTagShow(p) {
 }
 function DownloadColor() {
     var cont = GetColorEPS();
-    var fn = 'owocolor.eps';
+    var fn = 'Irisring-color.eps';
     var bb = new Blob([cont], { type: "text/plain;charset=gb2312" });
     saveAs(bb, fn);
 }
@@ -1667,11 +1671,11 @@ function GetColorEPS() {
         y -= yn;
         dd += h.GetStrId() + ',';
     }
-    return '%!PS-owo-color1.9:' + dd.substring(0, dd.length - 1) + ';' + s + 'showpage';
+    return '%!PS-Irisring-color2.0:' + dd.substring(0, dd.length - 1) + ';' + s + 'showpage';
 }
 function ReDataToSVG(data) {
     var ds;
-    if (data.substring(0, 14) == '\%!PS-owo-color') {
+    if (data.substring(0, 14) == '\%!PS-Irisring-color') {
         ds = data.split(':')[1].split(';')[0];
     }
     else {
@@ -1828,6 +1832,9 @@ window.onload = function () {
         rins[v] = rin;
         rinCo[v] = new CCC.Color([0, 0, 0], true);
     }
+    document.getElementById('addpath').addEventListener('animationend', function () {
+        document.getElementById('addpath').classList.remove('swiadd');
+    });
     cosPad = document.getElementById('cospad');
     coGrPad = new Array();
     cololi = new Array();
