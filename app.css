@@ -223,7 +223,7 @@ li {
 
 /* 添加曲线按钮 */
 #addpath {
-    background-image: url(plus.png);
+    background-image: url(img/plus.png);
     background-color: transparent;
     transition: all ease 0.2s;
 }
@@ -237,7 +237,7 @@ li {
 /* 开关灯按钮 */
 #swilig {
     margin-top: -3px;
-    background-image: url(light.png);
+    background-image: url(img/light.png);
     transition: opacity ease 0.2s;
 }
 #swilig:active {
@@ -247,7 +247,7 @@ li {
 }
 /* 切换颜色标识按钮 */
 #swiconame {
-    background-image: url(coname.png);
+    background-image: url(img/coname.png);
     background-position: center center;
     background-size: 36px 36px;
     background-repeat: no-repeat;
@@ -267,7 +267,7 @@ li {
     bottom: -12px;
     width: 120px;
     height: 15px;
-    background-image: url(swib.gif);
+    background-image: url(img/swib.gif);
     background-position: center top;
     background-color: transparent;
     opacity: 0.5;
@@ -308,7 +308,7 @@ li {
 
 /* 下载色板按钮 */
 #dlcolos {
-    background-image: url(dl.png);
+    background-image: url(img/dl.png);
     background-color: transparent;
     transition: all ease 0.25s;
 }
@@ -320,7 +320,7 @@ li {
 }
 /* 上传色板按钮 */
 #ulcolos {
-    background-image: url(dl.png);
+    background-image: url(img/dl.png);
     background-color: transparent;
     transform: rotate(225deg);
     transition: all ease 0.2s;
@@ -335,7 +335,7 @@ li {
 }
 /* 刷新色板按钮 */
 #refresh {
-    background-image: url(refresh.png);
+    background-image: url(img/refresh.png);
     background-color: transparent;
     transition: all ease 0.4s;
 }
@@ -485,7 +485,7 @@ li {
     margin-left: 20px;
     width: 25px;
     height: 25px;
-    background-image: url(dna.png);
+    background-image: url(img/dna.png);
     background-repeat: no-repeat;
     animation: comenuAni 0.8s steps(9, end) 0s infinite;
     animation-fill-mode: none;
@@ -528,22 +528,22 @@ li {
 /* 色块添加按钮 */
 #coadd {
     float: left;
-    background-image: url(splus.png);
+    background-image: url(img/splus.png);
 }
 /* 色块减少按钮 */
 #cosub {
     float: left;
-    background-image: url(smin.png);
+    background-image: url(img/smin.png);
 }
 /* 色组标记按钮 */
 #comak {
     float: left;
-    background-image: url(favo.png);
+    background-image: url(img/favo.png);
 }
 /* 色组移除按钮 */
 #codel {
     float: left;
-    background-image: url(sx.png);
+    background-image: url(img/sx.png);
     background-size: 14px 14px;
 }
 #codel:hover {
@@ -577,10 +577,10 @@ li {
     opacity: 0.2;
 }
 #coeditbg_s {
-    background-image: url(Sbg.png);
+    background-image: url(img/Sbg.png);
 }
 #coeditbg_l {
-    background-image: url(Lbg.png);
+    background-image: url(img/Lbg.png);
 }
 /* 色相编辑器 */
 .coedit {
@@ -693,7 +693,7 @@ li {
     border-radius: 20px;
     border-bottom-right-radius: 0;
     background-color: rgba(128,128,128,0.15);
-    background-image: url(splus.png);
+    background-image: url(img/splus.png);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 10px 10px;
@@ -712,7 +712,7 @@ li {
     opacity: 0.1;
 }
 .desvcoli .svmenui {
-    background-image: url(sx.png);
+    background-image: url(img/sx.png);
 }
 /* 色标跳动提示 */
 .svtip {
