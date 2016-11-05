@@ -1,0 +1,728 @@
+﻿* {
+    margin: 0;
+}
+body {
+    padding-bottom: 50px;
+}
+li {
+    list-style: none;
+}
+
+.bodytr {
+    transition: all ease 0.5s;
+}
+
+/* 曲线图 */
+#svg {
+    position: absolute;
+    z-index: 3;
+}
+#svg:hover {
+    fill: #353535;
+}
+
+/* 微标 */
+#o {
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    width: 50px;
+    height: 50px;
+}
+
+/* 横向底幕 */
+.t {
+    width: 100%;
+}
+/* 上行 */
+#t1 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 500px;
+}
+/* 下行 */
+#t2 {
+}
+
+/*----------------------------------------------------------------------*/
+
+/* 色轮 */
+#pad {
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    width: 500px;
+    height: 500px;
+}
+#pths {
+    width: 500px;
+    height: 500px;
+}
+
+/* 环内路径 */
+.pth {
+    stroke-linecap: round;
+    stroke-width: 5;
+    transition: stroke-width cubic-bezier(0,2, 1,0.5) 0.2s;
+    animation: bezAni cubic-bezier(0.5,2, 0.5,0) 0.4s;
+    z-index: 3;
+}
+.pth:hover {
+    stroke-width: 10;
+}
+
+/* 显式选择点 */
+.ctrp_cs {
+    stroke-width: 0;
+    transition: fill ease 0.2s;
+    z-index: 2;
+}
+.ctrp_cs:hover {
+    fill: white;
+    stroke-width: 2;
+}
+
+/* 显式背景路径 */
+#sel_pth {
+    transition: all ease 0.25s;
+}
+/* 显式背景操控线 */
+.sel_pbl {
+    pointer-events: none;
+    transition: stroke ease 0.2s;
+}
+/* 显式背景K点 */
+.sel_pbp {
+    stroke-width: 0;
+    transition: fill ease 0.3s;
+}
+.sel_pbp:hover {
+    stroke: white;
+    stroke-width: 3px;
+    fill: #888;
+}
+/* 显式I点 */
+.sel_pbi {
+    opacity: 0;
+    transition: opacity ease 0.2s;
+}
+.sel_pbi:hover {
+    opacity: 1;
+}
+.sel_pbi:active {
+    opacity: 0.5;
+}
+
+/* 可选操纵点 */
+.ctrp {
+    position: absolute;
+    fill: white;
+    stroke: black;
+    stroke-width: 3;
+    transition: stroke-width ease 0.2s;
+    animation: ctrpAni cubic-bezier(0.5,2, 0.5,0.5) 0.5s;
+}
+.ctrp:hover {
+    stroke: white;
+    stroke-width: 5;
+    transition: all ease 0.2s;
+}
+.ctrp:active {
+    fill: black;
+    opacity: 0.3;
+    transition: fill cubic-bezier(0.5,0, 0.5,1) 1s;
+}
+
+/* 点粘合效果 */
+#gtag {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    margin-left: -30px;
+    margin-top: -30px;
+    border-radius: 30px;
+    background-color: white;
+    pointer-events: none;
+    animation: gtagAni ease-out 1s;
+    opacity: 0;
+    z-index: 10;
+}
+
+/* 大环 */
+.ring0 {
+    stroke-width: 1;
+    stroke-opacity: 0.8;
+}
+/* 小环 */
+.ringo {
+    stroke-width: 1;
+    stroke-opacity: 0.3;
+}
+/* 环线 */
+.ringl {
+    stroke-width: 1;
+    opacity: 0;
+    transition: opacity ease 0.15s;
+}
+.ringl:hover {
+    opacity: 1;
+    transition: opacity 0s;
+}
+
+/* 参照环控制器 */
+#rinctr {
+    opacity: 0.03;
+    /*transition: opacity ease 0.3s;*/
+}/*
+#rinctr:hover {
+    opacity: 0.02;
+}
+#rinctr:active {
+    opacity: 0.05;
+}*/
+
+@keyframes bezAni {
+    from { stroke-width: 0; }
+    to { stroke-width: 5; }
+}
+
+@keyframes ctrpAni {
+    from { stroke: white; stroke-width: 0; }
+    to { stroke: black; stroke-width: 3; }
+}
+
+@keyframes gtagAni {
+    0% { opacity: 1; transform: scale(0); }
+    20% { opacity: 0.5; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.2); }
+}
+
+/*----------------------------------------------------------------------*/
+
+/* 右列按钮面板 */
+#btnsr {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    margin-left: 200px;
+    width: 250px;
+    height: 40px;
+    z-index: 6;
+}
+/* 右列按钮 */
+.btnr {
+    margin-right: 20px;
+    width: 40px;
+    height: 40px;
+    float: left;
+    opacity: 0.3;
+}
+.btnr:hover {
+    opacity: 1;
+}
+
+/* 添加曲线按钮 */
+#addpath {
+    background-image: url(plus.png);
+    background-color: transparent;
+    transition: all ease 0.2s;
+}
+#addpath:active {
+    opacity: 0.5;
+    transform: scale(0.9) rotate(-90deg);
+    background-color: rgba(96,96,96,0.3);
+    transition: all 0s;
+}
+
+/* 开关灯按钮 */
+#swilig {
+    margin-top: -3px;
+    background-image: url(light.png);
+    transition: opacity ease 0.2s;
+}
+#swilig:active {
+    opacity: 0.5;
+    transform: scale(0.9);
+    transition: all 0s;
+}
+/* 切换颜色标识按钮 */
+#swiconame {
+    background-image: url(coname.png);
+    background-position: center center;
+    background-size: 36px 36px;
+    background-repeat: no-repeat;
+    transition: opacity ease 0.2s;
+}
+#swiconame:active {
+    opacity: 0.5;
+    transform: scale(0.9);
+    transition: opacity 0s;
+}
+
+/* 开关显示色板按钮 */
+#swicobox {
+    position: absolute;
+    margin-left: -60px;
+    left: 50%;
+    bottom: -12px;
+    width: 120px;
+    height: 15px;
+    background-image: url(swib.gif);
+    background-position: center top;
+    background-color: transparent;
+    opacity: 0.5;
+    transition: all ease 0.2s;
+}
+#swicobox:hover {
+    background-color: rgba(102,102,102,0.1);
+    opacity: 1;
+}
+#swicobox:active {
+    background-color: rgba(96,96,96,0.2);
+    transition: background ease 0s;
+}
+
+/*----------------------------------------------------------------------*/
+
+/* 左列按钮面板 */
+#btnsl {
+    position: absolute;
+    bottom: 10px;
+    right: 50%;
+    margin-right: 200px;
+    width: 250px;
+    height: 40px;
+    z-index: 6;
+}
+/* 左列按钮 */
+.btnl {
+    margin-left: 20px;
+    width: 40px;
+    height: 40px;
+    float: right;
+    opacity: 0.3;
+}
+.btnl:hover {
+    opacity: 1;
+}
+
+/* 下载色板按钮 */
+#dlcolos {
+    background-image: url(dl.png);
+    background-color: transparent;
+    transition: all ease 0.25s;
+}
+#dlcolos:active {
+    background-position: 0 -40px;
+    opacity: 0.5;
+    transform: scale(0.9);
+    transition: all 0s;
+}
+/* 上传色板按钮 */
+#ulcolos {
+    background-image: url(dl.png);
+    background-color: transparent;
+    transform: rotate(225deg);
+    transition: all ease 0.2s;
+}
+#ulcolos:hover {
+    transform: rotate(180deg);
+}
+#ulcolos:active {
+    opacity: 0.5;
+    transform: scale(0.9) rotate(180deg);
+    transition: all 0s;
+}
+/* 刷新色板按钮 */
+#refresh {
+    background-image: url(refresh.png);
+    background-color: transparent;
+    transition: all ease 0.4s;
+}
+#refresh:hover {
+    transform: rotate(45deg);
+}
+#refresh:active {
+    opacity: 0.5;
+    transform: scale(0.9) rotate(-45deg);
+    transition: all 0s;
+}
+
+/*----------------------------------------------------------------------*/
+
+/* 色块面板 */
+#cospad {
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+    width: 80%;
+    transition: opacity ease 0.5s;
+    z-index: 1;
+    line-height: 55px;
+}
+
+/* 色组块 */
+.gcpad {
+    width: 75px;
+    min-height: 0;
+    margin-right: 1px;
+    margin-bottom: 30px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-left-radius: 35px;
+    border-bottom-right-radius: 35px;
+    background-color: transparent;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+    transition: all ease 0.5s;
+    animation: copAni cubic-bezier(0,0.5,0.5,1) 0.2s;
+}
+.gcpad:hover, .gcpada:hover {
+    margin-top: -30px;
+    padding-top: 30px;
+    background-color: rgba(96,96,96,0.3);
+    transition: all ease 0.2s;
+}
+/* 色组块选取状态 */
+.gcpada {
+    padding-top: 30px;
+    background-color: rgba(96,96,96,0.3);
+}
+/* 色组块编辑状态 */
+.gcpadedt {
+    margin-top: -30px;
+    padding-top: 30px;
+    border-radius: 2px;
+    width: 225px;
+    min-height: 270px;
+    transition: all ease 0.2s;
+}
+
+/* 色组块颜色显示区 */
+.colovw {
+    padding: 5px;
+    width: 65px;
+}
+
+/* 单色块 */
+.cololi {
+    margin-top: -35px;
+    padding: 5px;
+    height: 90px;
+    font-family: Arial;
+    font-size: 12px;
+    text-align: center;
+    line-height: inherit;
+    outline: solid rgba(255,255,255,0) 5px;
+    transition: border-radius cubic-bezier(0.5,0, 1,1) 0.5s;
+    color: rgba(0,0,0,0.2);
+}
+.cololi:hover {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    transition: border-radius cubic-bezier(0.2,4, 0.3,0) 0.8s;
+    color: rgba(0,0,0,0.7);
+}
+.cololi::before {
+    content: '';
+    position: absolute;
+    margin-left: 25px;
+    border-radius: 5px;
+    width: 5px;
+    height: 7px;
+    background-color: gray;
+    display: block;
+    opacity: 0;
+    transition: all ease 2s;
+}
+.cololi:hover::before {
+    margin-left: 20px;
+    width: 15px;
+    opacity: 0.15;
+    transition: all cubic-bezier(0.1,3, 0.15,1) 3s;
+}
+.cololib {
+    color: rgba(255,255,255,0.3);
+}
+.cololib:hover {
+    color: rgba(255,255,255,0.7);
+}
+.cololi:first-child {
+    margin-top: 0;
+}
+.cololi:last-child {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    height: 55px;
+}
+.cololi:last-child:hover {
+
+}
+
+/* 色组选项 */
+.comenu {
+	width: 65px;
+	margin-left: 5px;
+	margin-top: -25px;
+    border-radius: 25px;
+	height: 25px;
+    background-color: transparent;
+    opacity: 0;
+    transition: opacity ease 0.3s;
+    animation-play-state: paused;
+}
+.comenu:hover {
+    opacity: 1;
+    transition: opacity ease 0.15s;
+    animation-play-state: running;
+}
+.comenu:active {
+    opacity: 0.5;
+}
+/* 选项DNA图标 */
+.comenui {
+    margin-left: 20px;
+    width: 25px;
+    height: 25px;
+    background-image: url(dna.png);
+    background-repeat: no-repeat;
+    animation: comenuAni 0.8s steps(9, end) 0s infinite;
+    animation-fill-mode: none;
+    animation-play-state: inherit;
+}
+
+/* 色块设置面板 */
+.cosetpad {
+    width: 145px;
+    height: 25px;
+    margin-left: 75px;
+    margin-top: -25px;
+}
+
+/* 色块增删按钮组 */
+.cosetbts {
+    height: 25px;
+}
+/* 色块增删按钮 */
+.cosetbt {
+    margin-left: 7px;
+    margin-right: 3px;
+    width: 25px;
+    height: 25px;
+    background-size: 12.5px 12.5px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.6;
+    transition: all ease 0.2s;
+}
+.cosetbt:hover {
+    background-color: rgba(128, 128, 128, 0.2);
+    opacity: 1;
+}
+.cosetbt:active {
+    opacity: 0.3;
+    transition: opacity 0s;
+}
+/* 色块添加按钮 */
+#coadd {
+    float: left;
+    background-image: url(splus.png);
+}
+/* 色块减少按钮 */
+#cosub {
+    float: left;
+    background-image: url(smin.png);
+}
+/* 色组标记按钮 */
+#comak {
+    float: left;
+    background-image: url(favo.png);
+}
+/* 色组移除按钮 */
+#codel {
+    float: left;
+    background-image: url(sx.png);
+    background-size: 14px 14px;
+}
+#codel:hover {
+    background-color: rgba(255, 128, 128, 0.2);
+}
+
+/* 色相编辑面板 */
+.coeditpad {
+    margin-top: 5px;
+    width: 143px;
+    height: 250px;
+}
+/* 色相编辑器组框 */
+.coeditbox {
+    position: relative;
+    width: 70px;
+    height: 250px;
+    float: right;
+}
+/* 色相编辑器背景 */
+.coeditbg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 70px;
+    height: 250px;
+    background-size: 50px 50px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.2;
+}
+#coeditbg_s {
+    background-image: url(Sbg.png);
+}
+#coeditbg_l {
+    background-image: url(Lbg.png);
+}
+/* 色相编辑器 */
+.coedit {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 70px;
+    height: 250px;
+}
+/* 色相编辑控制点 */
+.coeditp {
+    fill: black;
+    stroke: transparent;
+    stroke-width: 3px;
+    opacity: 0.4;
+    transition: opacity ease 0.2s;
+}
+.coeditp:hover {
+    opacity: 0.7;
+}
+
+/* 色板占位标记 */
+#coloPadTag {
+    width: 0;
+    display: inline-block;
+    vertical-align: top;
+    animation: copadtag ease 0.5s;
+}
+
+@keyframes copAni {
+    from { opacity: 0; margin-top: -10px; }
+    to { opacity: 1; margin-top: 0; }
+}
+
+@keyframes comenuAni {
+    from { background-position: 0; }
+    to { background-position: -225px; }
+}
+
+@keyframes copadtag {
+    from { width: 225px; }
+    to { width: 0; }
+}
+
+/*----------------------------------------------------------------------*/
+
+/* 色系储存面板 */
+#svcopad {
+    width: 100%;
+    text-align: center;
+}
+/* 单色系储存板块 */
+.svcoli {
+    margin: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 20px;
+    height: 25px;
+    border-radius: 30px;
+    background-color: transparent;
+    text-align: center;
+    vertical-align: top;
+    display: inline-block;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+.svcoli:hover {
+    margin-top: -30px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 35px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.svcoli:hover .svcosvg path {
+    transition: opacity ease 0.2s;
+    opacity: 0.3;
+}
+/* 单色系储存内容 */
+.svcosvg {
+    margin-left: 10px;
+    margin-top: 10px;
+    overflow: visible;
+}
+/* 储存单色点 */
+.svcosvgdot {
+    opacity: 0;
+    stroke-width: 3px;
+    stroke-opacity: 0;
+    transition: all ease 0.15s;
+}
+.svcosvgdot:hover {
+    stroke-opacity: 1;
+}
+.svcoli:hover .svcosvgdot {
+    opacity: 1;
+}
+/* 色系储存操作块 */
+.svmenu {
+    margin: 0 auto;
+    margin-top: -33px;
+    width: 20px;
+    height: 35px;
+}
+/* 色系储存操作按钮 */
+.svmenui {
+    margin-bottom: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border-bottom-right-radius: 0;
+    background-color: rgba(128,128,128,0.15);
+    background-image: url(splus.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    transform: rotate(45deg);
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+.svmenui:hover {
+    opacity: 1;
+}
+/* 预消除储存块 */
+.desvcoli .svcosvg path {
+    opacity: 0.2;
+}
+.desvcoli:hover .svcosvg path {
+    opacity: 0.1;
+}
+.desvcoli .svmenui {
+    background-image: url(sx.png);
+}
+/* 色标跳动提示 */
+.svtip {
+    animation: svtipAni ease-in-out 0.6s;
+    animation-direction: normal;
+}
+@keyframes svtipAni{
+    0% { margin-top: 10px; }
+    38% { margin-top: -10px; }
+    62% { margin-top: 10px; }
+    76% { margin-top: 0px; }
+    100% { margin-top: 10px; }
+}
