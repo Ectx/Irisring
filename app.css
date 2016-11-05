@@ -21,15 +21,6 @@ li {
     fill: #353535;
 }
 
-/* 微标 */
-#o {
-    position: absolute;
-    left: 100px;
-    top: 100px;
-    width: 50px;
-    height: 50px;
-}
-
 /* 横向底幕 */
 .t {
     width: 100%;
