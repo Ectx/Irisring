@@ -701,6 +701,17 @@ li {
     opacity: 1;
 }
 /* 预消除储存块 */
+.desvcoli {
+    margin-left: 0;
+    margin-right: 0;
+}
+.desvcoli:hover {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+.desvcoli + .desvcoli {
+    margin-left: 5px;
+}
 .desvcoli .svcosvg path {
     opacity: 0.2;
 }
