@@ -3,6 +3,7 @@
 }
 body {
     padding-bottom: 50px;
+    height: 100%;
 }
 li {
     list-style: none;
