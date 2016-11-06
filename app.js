@@ -1675,7 +1675,7 @@ function GetColorEPS() {
 }
 function ReDataToSVG(data) {
     var ds;
-    if (data.substring(0, 14) == '\%!PS-Irisring-color') {
+    if (data.substring(0, 19) == '\%!PS-Irisring-color') {
         ds = data.split(':')[1].split(';')[0];
     }
     else {
