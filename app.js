@@ -386,6 +386,10 @@ var CCC;
             this.bz.o.y = Math.sin(h);
             this.bz.TranSub(this.bs);
         };
+        Harmony.prototype.BezOtoHL = function () {
+            var v = Point.ToHL(this.bz.o), h = Math.round(v[0] * CCC.pHtoJ / 3);
+            this.lh = h;
+        };
         Harmony.prototype.SetDN = function (add) {
             this.dn += add ? 1 : -1;
             this.dr = 0.9 / (this.dn - 1);
@@ -653,11 +657,11 @@ var CCC;
                             return;
                     });
                 if (ot)
-                    return false;
+                    return;
                 if (ik != 'o' || ik == a[2] || (p.hs && p.hs.Has('o')))
                     p.Union(this, a[2], ik);
                 else
-                    return false;
+                    return;
                 return true;
             }
             else if (Math.abs(this.x) < 0.02 && Math.abs(this.y) < 0.02) {
@@ -870,11 +874,21 @@ var CCC;
                 }
                 GrpTagShow(p.ToArr());
             }
-            else if (p.hs)
+            else if (p.hs) {
+                var aid = [];
                 p.hs.ForAt(function (i) {
                     var hid = p.hs.Get(i);
-                    hid.ForAt(function (j) { return RePathOver(hid.Get(j), 'g' + i); });
+                    hid.ForAt(function (j) {
+                        if (!aid[j]) {
+                            var ih = hid.Get(j);
+                            if (i == 'o')
+                                ih.BezOtoHL();
+                            RePathOver(ih, 'g' + i);
+                            aid[j] = true;
+                        }
+                    });
                 });
+            }
             else
                 RePathOver(h, pn);
             RefreshUrl();
@@ -1335,6 +1349,7 @@ function RePathOver(h, pn) {
 }
 function ReColorOver(h, cnt) {
     h.strID = h.GetStrId();
+    log(h.id + ' ' + cnt + ' ' + h.GetStrId());
 }
 function RefreshUrl() {
     var url = '?irco=';
