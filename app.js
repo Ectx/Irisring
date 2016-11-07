@@ -271,7 +271,7 @@ var CCC;
             return s;
         };
         Harmony.NewFromStrId = function (s) {
-            var i = 0, kx, ky, ix, iy, si, sk, sa, li, lk, la, iss = s.length == 13;
+            var i = 0, kx, ky, ix, iy, si, sk, sa, li, lk, la;
             function randmix(mainum, per, maxin) {
                 var p = per * 0.5;
                 var v = mainum / per;
@@ -281,7 +281,7 @@ var CCC;
             }
             var lh = parseInt(s.substr(i, 2), 32) - 60;
             i += 2;
-            if (iss) {
+            if (s.length == 13) {
                 kx = randmix(parseInt(s.substr(i, 1), 36) - 18, 11);
                 i += 1;
                 ky = randmix(parseInt(s.substr(i, 1), 36) - 18, 11);
@@ -303,7 +303,7 @@ var CCC;
                 la = randmix(parseInt(s.substr(i, 1), 36), 35, 1);
                 i += 1;
             }
-            else {
+            else if (s.length == 23) {
                 kx = (parseInt(s.substr(i, 2), 32) - 500) / 300;
                 i += 2;
                 ky = (parseInt(s.substr(i, 2), 32) - 500) / 300;
@@ -325,6 +325,8 @@ var CCC;
                 la = parseInt(s.substr(i, 2), 32) * 0.001;
                 i += 2;
             }
+            else
+                return;
             var dn = +s.substr(i, 1);
             var p = new CCC.Point([kx, ky], undefined, true);
             var bs = new CCC.Bezier1D(si, sa, sk, false);
@@ -801,13 +803,28 @@ var CCC;
             Palette.rinBez.k1 = 0.15;
             Palette.rinBez.k2 = 0.5;
         };
-        Page.Start = function () {
-            var n = Math.round(Math.random() * 3 + Math.random() * 2 + Math.random() * Math.random() + 1);
-            for (var i = 0; i < n; i++) {
-                var h = Page.AddBez();
-                AddPath(h);
-                AddColorBox(h);
+        Page.Start = function (data) {
+            if (data && data.length) {
+                for (var d in data) {
+                    var h = CCC.Harmony.NewFromStrId(data[d]);
+                    if (!h)
+                        continue;
+                    h.bz.i.FindUniTest('i', 0.0001);
+                    h.bz.k.FindUniTest('k', 0.0001);
+                    h.bz.o.FindUniTest('o', 0.0001);
+                    AddPath(h);
+                    AddColorBox(h);
+                }
             }
+            else {
+                var n = Math.round(Math.random() * 3 + Math.random() * 2 + Math.random() * Math.random() + 1);
+                for (var i = 0; i < n; i++) {
+                    var h = Page.AddBez();
+                    AddPath(h);
+                    AddColorBox(h);
+                }
+            }
+            RefreshUrl();
         };
         Page.AddBez = function () {
             var h = Palette.psyH, kh = Palette.psyKH, ofstKL = Math.sin(Palette.psyKL), ustKL = Math.abs(ofstKL), rKL = 1 - Math.random() * Math.random(), tL = ustKL * rKL * 0.6 + 0.3, x = Math.cos(kh) * tL, y = Math.sin(kh) * tL, p = new Point([x, y], undefined, true);
@@ -845,7 +862,7 @@ var CCC;
             if (hsFd) {
                 p = h.bz.GetTag(pn);
                 if (p.hs)
-                    Page.PoiSetAllBez(p);
+                    Page.PoiSetAllBez(p, true);
                 else {
                     h.PSinCS();
                     RePathBez(h, pn);
@@ -853,9 +870,16 @@ var CCC;
                 }
                 GrpTagShow(p.ToArr());
             }
-            RePathOver(h);
+            else if (p.hs)
+                p.hs.ForAt(function (i) {
+                    var hid = p.hs.Get(i);
+                    hid.ForAt(function (j) { return RePathOver(hid.Get(j), 'g' + i); });
+                });
+            else
+                RePathOver(h, pn);
+            RefreshUrl();
         };
-        Page.PoiSetAllBez = function (a) {
+        Page.PoiSetAllBez = function (a, isover) {
             var aid = [];
             a.hs.ForAt(function (i) {
                 var hid = a.hs.Get(i);
@@ -866,6 +890,8 @@ var CCC;
                         ih.PSinCS();
                         RePathBez(ih, i);
                         RePathColor(ih);
+                        if (isover)
+                            ReColorOver(ih, 'g' + i);
                         aid[j] = true;
                     }
                 });
@@ -1021,6 +1047,7 @@ function addColors() {
     var h = CCC.Page.AddBez();
     AddPath(h);
     AddColorBox(h);
+    RefreshUrl();
     selc(h.id, '');
 }
 function PtoCX(n) { return CCC.Page.padWdt + n * CCC.Page.padLen; }
@@ -1069,6 +1096,7 @@ function AddColorBox(h) {
         copv.appendChild(ci);
         cololi[h.id][i] = ci;
     }
+    ReColorOver(h, 'c');
 }
 function InitColoSetPad() {
     coSetPad = document.createElement('div');
@@ -1097,7 +1125,7 @@ function InitColoSetPad() {
     codel.id = 'codel';
     codel.title = 'Remove Colors\n移除色系';
     codel.setAttribute('class', 'cosetbt');
-    codel.setAttribute('onclick', 'RemovePath()');
+    codel.setAttribute('onclick', 'remoPath()');
     cosetbts.appendChild(codel);
     var coeditpad = document.createElement('div');
     coeditpad.setAttribute('class', 'coeditpad');
@@ -1186,6 +1214,13 @@ function PEdit() {
 function PEditOver() {
     if (!eip)
         return;
+    var h = CCC.Harmony.GetFromID(setID), n = eip[0];
+    if (n == 's')
+        n += 2 - +eip[1];
+    else
+        n += eip[1];
+    ReColorOver(h, n);
+    RefreshUrl();
     eip = undefined;
 }
 function AddPath(h) {
@@ -1294,8 +1329,22 @@ function RePathColor(h) {
     vwbPoi[h.id][2].setAttribute('fill', '#' + h.cs[0].bit);
     vwPoi[h.id].setAttribute('fill', laspt);
 }
-function RePathOver(h) {
+function RePathOver(h, pn) {
     unlockPoi = undefined;
+    ReColorOver(h, pn);
+}
+function ReColorOver(h, cnt) {
+    h.strID = h.GetStrId();
+}
+function RefreshUrl() {
+    var url = '?irco=';
+    for (var i in CCC.Harmony.all) {
+        var ha = CCC.Harmony.all[i];
+        url += ha.strID + ',';
+    }
+    url = url.substring(0, url.length - 1);
+    if (window.location.search != url)
+        window.history.pushState({}, undefined, url);
 }
 function SetC(id) {
     if (id != setID)
@@ -1329,6 +1378,10 @@ function DeSetC() {
     coSetPadSave.appendChild(coSetPad);
     setID = undefined;
 }
+function remoPath() {
+    RemovePath();
+    RefreshUrl();
+}
 function RemovePath(id) {
     id = id || setID;
     desel();
@@ -1358,6 +1411,7 @@ function RemovePath(id) {
     delete coSets[id];
     CCC.Harmony.Remove(id);
     setID = null;
+    ReColorOver(h, 'd');
 }
 function AddSeg(id) {
     var h = CCC.Harmony.GetFromID(id || setID);
@@ -1385,6 +1439,8 @@ function AddSeg(id) {
     coGrPad[h.id][1].appendChild(ci);
     cololi[h.id][dnd] = ci;
     RePathColor(h);
+    ReColorOver(h, 'a');
+    RefreshUrl();
 }
 function RedSeg(id) {
     var h = CCC.Harmony.GetFromID(id || setID);
@@ -1398,10 +1454,12 @@ function RedSeg(id) {
     var ci = cololi[h.id].pop();
     coGrPad[h.id][1].removeChild(ci);
     RePathColor(h);
+    ReColorOver(h, 's');
+    RefreshUrl();
 }
 function MarkColors(id) {
     var h = CCC.Harmony.GetFromID(id || setID);
-    var d = h.GetStrId();
+    var d = h.strID;
     d = d.substring(0, d.length - 1);
     if (coMarkData[d]) {
         var coli = svCoList[d];
@@ -1506,6 +1564,7 @@ function MarkAdd(data) {
     h.bz.o.FindUniTest('o', 0.0001);
     AddPath(h);
     AddColorBox(h);
+    RefreshUrl();
 }
 function MarkDel(data) {
     var xd = '#' + data;
@@ -1523,6 +1582,10 @@ function SetRingColor() {
         rinCo[i].Set([CCC.Color.WarpH(+i), 0.8, 0.8], false);
         rins[i].setAttribute('stroke', '#' + rinCo[i].bit);
     }
+}
+function ClearColors() {
+    CCC.Harmony.ForTag(function (i) { RemovePath(i); });
+    RefreshUrl();
 }
 function RefreshColors() {
     CCC.Harmony.ForTag(function (i) { RemovePath(i); });
@@ -1652,7 +1715,7 @@ function GetColorsSVG() {
             xn += 100;
         }
         yn += 110;
-        dd += h.GetStrId() + ',';
+        dd += h.strID + ',';
     }
     dd = dd.substring(0, dd.length - 1);
     svg.setAttribute('ddata', dd);
@@ -1669,7 +1732,7 @@ function GetColorEPS() {
             x += xn;
         }
         y -= yn;
-        dd += h.GetStrId() + ',';
+        dd += h.strID + ',';
     }
     return '%!PS-Irisring-color2.0:' + dd.substring(0, dd.length - 1) + ';' + s + 'showpage';
 }
@@ -1691,12 +1754,15 @@ function ReDataToSVG(data) {
     var c = ds.split(',');
     for (var i in c) {
         var h = CCC.Harmony.NewFromStrId(c[i]);
+        if (!h)
+            continue;
         h.bz.i.FindUniTest('i', 0.0001);
         h.bz.k.FindUniTest('k', 0.0001);
         h.bz.o.FindUniTest('o', 0.0001);
         AddPath(h);
         AddColorBox(h);
     }
+    RefreshUrl();
 }
 function UploadSVG(input) {
     var win = window;
@@ -1851,7 +1917,10 @@ window.onload = function () {
     coMarkData = new Array();
     svCoPad = document.getElementById('svcopad');
     svCoList = new Array();
-    CCC.Page.Start();
+    var udata = window.location.search.split('=')[1];
+    if (udata)
+        udata = udata.split(',');
+    CCC.Page.Start(udata);
     LoadPageSTG();
 };
 document.onselectstart = function (event) { if (P[1] < 540 || setID) {
