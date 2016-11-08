@@ -874,7 +874,8 @@ var CCC;
                 }
                 GrpTagShow(p.ToArr());
             }
-            else if (p.hs) {
+            RePathOver(h, pn);
+            if (p.hs) {
                 var aid = [];
                 p.hs.ForAt(function (i) {
                     var hid = p.hs.Get(i);
@@ -883,14 +884,12 @@ var CCC;
                             var ih = hid.Get(j);
                             if (i == 'o')
                                 ih.BezOtoHL();
-                            RePathOver(ih, 'g' + i);
+                            ReColorOver(ih, 'g' + i);
                             aid[j] = true;
                         }
                     });
                 });
             }
-            else
-                RePathOver(h, pn);
             RefreshUrl();
         };
         Page.PoiSetAllBez = function (a, isover) {
