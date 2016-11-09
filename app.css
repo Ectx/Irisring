@@ -5,7 +5,7 @@ body {
     position: absolute;
     width: 100%;
     min-height: 100%;
-    padding-bottom: 50px;
+    padding-bottom: 80px;
 }
 li {
     list-style: none;
@@ -637,7 +637,7 @@ li {
     margin-left: 15px;
     margin-right: 15px;
     width: 20px;
-    height: 25px;
+    height: 40px;
     border-radius: 30px;
     background-color: transparent;
     text-align: center;
@@ -653,6 +653,7 @@ li {
     padding: 35px;
     padding-left: 20px;
     padding-right: 20px;
+    height: 10px;
 }
 .svcoli:hover .svcosvg path {
     transition: opacity ease 0.2s;
@@ -730,9 +731,29 @@ li {
     animation-direction: normal;
 }
 @keyframes svtipAni{
-    0% { margin-top: 10px; }
-    38% { margin-top: -10px; }
-    62% { margin-top: 10px; }
-    76% { margin-top: 0px; }
-    100% { margin-top: 10px; }
+    0% { margin-top: 10px; height: 40px; }
+    38% { margin-top: -10px; height: 60px; }
+    62% { margin-top: 10px; height: 40px; }
+    76% { margin-top: 0px; height: 30px; }
+    100% { margin-top: 10px; height: 40px; }
+}
+
+/*----------------------------------------------------------------------*/
+
+/* 页脚 */
+#ft {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 25px;
+    text-align: center;
+}
+/* github链接 */
+#gitlink {
+    display: inline-block;
+    fill: #666;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+}
+#gitlink:hover {
+    opacity: 1;
 }
