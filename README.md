@@ -1,7 +1,7 @@
 # Irisring
 Color-scheme
 
-[https://ectx.github.io/Irisring](http://color.owo.space/?irco=2q7gaunnau32fkssv8v7a35,42fjp0nnau2de9u4v8v8do7,2qnnau7gau34drs4v8v85p5)
+[https://ectx.github.io/Irisring](http://color.owo.space/?irco=2q7gaunnau8tfkpussv7924,42fjp0nnau5abpk4tfv8dj6,2qnnau7gau77d8niv8be884)
 
 ## !! :
 - 新创建的色组，会根据背景明暗建立为亮色或暗色;
