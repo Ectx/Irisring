@@ -1837,7 +1837,7 @@ function LoadPageSTG() {
     var conamesw = +localStorage.getItem('conamesw');
     if (conamesw) {
         conamesw--;
-        if (conamesw < 1)
+        if (conamesw < 1 || conamesw > 3)
             conamesw = 3;
         CoNameVw = conamesw;
         SwiCoNameVw();
