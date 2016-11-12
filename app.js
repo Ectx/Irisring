@@ -1347,7 +1347,6 @@ function RePathOver(h, pn) {
 }
 function ReColorOver(h, cnt) {
     h.strID = h.GetStrId();
-    log(h.id + ' ' + cnt + ' ' + h.GetStrId());
 }
 function RefreshUrl() {
     var url = '?irco=';
@@ -1831,7 +1830,6 @@ function LoadPageSTG() {
     }
     else {
         ligOn = Math.random() > 0.5 ? 1 : 2;
-        log(ligOn);
         SwiLig();
     }
     var conamesw = +localStorage.getItem('conamesw');
