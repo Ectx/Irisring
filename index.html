@@ -8,7 +8,7 @@
     <script src="FileSaver.min.js"></script>
     <script src="app.js"></script>
 </head>
-<body onresize="setPadXY();" style="background-color:#1a1a1a;">
+<body onresize="setPadXY();" style="background-color:#666;">
     <div class="t" id="t1">
         <div id="pad">
             <svg id="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="500" height="500">
@@ -56,6 +56,9 @@
     <div class="t" id="t2">
         <div id="cospad">
             <div id="coloPadTag" style="display:none;"></div>
+            <div id="coloPadMenu">
+                <div id="coloPadClear" onclick="ClearColors()" title="Clear All&#xd清空色板"></div>
+            </div>
         </div>
         <div id="svcopad"></div>
     </div>

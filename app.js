@@ -1076,8 +1076,7 @@ function AddColorBox(h) {
     cos.id = 'gcp_' + h.id;
     cos.setAttribute('class', 'gcpad');
     cos.setAttribute('onclick', 'selc("' + h.id + '", "");');
-    if (true)
-        cosPad.appendChild(cos);
+    cosPad.insertBefore(cos, cosPad.lastChild.previousSibling);
     coGrPad[h.id] = new Array();
     coGrPad[h.id][0] = cos;
     cololi[h.id] = new Array();
@@ -1612,8 +1611,8 @@ var ligOn;
 function SwiLig() {
     var pathadder = document.getElementById('addpath');
     pathadder.classList.add('swiadd');
-    if (ligOn) {
-        ligOn = false;
+    if (ligOn == 1) {
+        ligOn = 2;
         CCC.Palette.ligRev = true;
         document.body.style.backgroundColor = '#1a1a1a';
         vwbPad[0].setAttribute('fill', 'unset');
@@ -1623,7 +1622,7 @@ function SwiLig() {
         pathadder.title = 'Add Dark Colors\n添加暗色系';
     }
     else {
-        ligOn = true;
+        ligOn = 1;
         CCC.Palette.ligRev = false;
         document.body.style.backgroundColor = '#eee';
         vwbPad[0].setAttribute('fill', '#ccc');
@@ -1648,11 +1647,11 @@ function SwiCoBoxVw() {
         document.getElementById('swicobox').style.backgroundPosition = 'top';
     }
 }
-var CoNameVw = 1;
+var CoNameVw = 2;
 function SwiCoNameVw() {
     switch (CoNameVw) {
-        case 0:
-            CoNameVw = 1;
+        case 1:
+            CoNameVw = 2;
             cosPad.style.lineHeight = '55px';
             for (var i in cololi) {
                 var h = CCC.Harmony.GetFromID(i);
@@ -1661,8 +1660,8 @@ function SwiCoNameVw() {
                 }
             }
             break;
-        case 1:
-            CoNameVw = 2;
+        case 2:
+            CoNameVw = 3;
             cosPad.style.lineHeight = '18px';
             for (var i in cololi) {
                 var h = CCC.Harmony.GetFromID(i);
@@ -1671,8 +1670,8 @@ function SwiCoNameVw() {
                 }
             }
             break;
-        case 2:
-            CoNameVw = 0;
+        case 3:
+            CoNameVw = 1;
             for (var i in cololi) {
                 for (var j in cololi[i]) {
                     cololi[i][j].innerHTML = '';
@@ -1685,10 +1684,10 @@ function SwiCoNameVw() {
 function GetColoName(h, cid) {
     var s = '';
     switch (CoNameVw) {
-        case 1:
+        case 2:
             s = '#' + h.cs[cid].bit;
             break;
-        case 2:
+        case 3:
             s = 'R:' + h.cs[cid].r + '</br>G:' + h.cs[cid].g + '</br>B:' + h.cs[cid].b;
             break;
     }
@@ -1826,15 +1825,20 @@ function LoadPageSTG() {
     if (!localStorage)
         return;
     var ligsw = localStorage.getItem('ligsw');
-    if (!(ligsw === undefined || ligsw === null)) {
-        ligOn = !+ligsw;
+    if (ligsw) {
+        ligOn = ligsw == '1' ? 2 : 1;
         SwiLig();
     }
-    var conamesw = localStorage.getItem('conamesw');
-    if (!(conamesw === undefined || conamesw === null)) {
+    else {
+        ligOn = Math.random() > 0.5 ? 1 : 2;
+        log(ligOn);
+        SwiLig();
+    }
+    var conamesw = +localStorage.getItem('conamesw');
+    if (conamesw) {
         conamesw--;
-        if (conamesw < 0)
-            conamesw = 2;
+        if (conamesw < 1)
+            conamesw = 3;
         CoNameVw = conamesw;
         SwiCoNameVw();
     }
