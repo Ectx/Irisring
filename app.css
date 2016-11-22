@@ -727,8 +727,10 @@ li {
 }
 /* 单色系储存内容 */
 .svcosvg {
-    margin-left: 10px;
-    margin-top: 10px;
+    margin-left: -25px;
+    margin-top: -25px;
+    width: 70px;
+    height: 70px;
     overflow: visible;
 }
 /* 储存单色点 */

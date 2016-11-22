@@ -1512,7 +1512,7 @@ function MarkAddTag(data, dn) {
     svCoPad.appendChild(coli);
 }
 function MarkCrt(svg, cs) {
-    var fp = cs[0].l < cs[2].l ? 1 : -1, hmx = CCC.P2, hl = fp > 0 ? 330 * CCC.pJtoH : 30 * CCC.pJtoH, len = 12;
+    var fp = cs[0].l < cs[2].l ? 1 : -1, rech = 35, hmx = CCC.P2, hl = fp > 0 ? 330 * CCC.pJtoH : 30 * CCC.pJtoH, len = 12;
     for (var i in cs) {
         var co = cs[i], dv1 = 25, dv7 = 17.67767, dt = document.createElementNS(svgName, 'circle');
         dt.setAttribute('class', 'svcosvgdot');
@@ -1522,45 +1522,45 @@ function MarkCrt(svg, cs) {
         svg.appendChild(dt);
         switch (i) {
             case '0':
-                dt.setAttribute('cx', '' + dv7 * fp);
-                dt.setAttribute('cy', '-' + dv7);
+                dt.setAttribute('cx', '' + (dv7 * fp + rech));
+                dt.setAttribute('cy', '' + (-dv7 + rech));
                 break;
             case '1':
-                dt.setAttribute('cx', '' + dv1 * fp);
-                dt.setAttribute('cy', '0');
+                dt.setAttribute('cx', '' + (dv1 * fp + rech));
+                dt.setAttribute('cy', '' + rech);
                 continue;
             case '2':
-                dt.setAttribute('cx', '' + dv7 * fp);
-                dt.setAttribute('cy', '' + dv7);
+                dt.setAttribute('cx', '' + (dv7 * fp + rech));
+                dt.setAttribute('cy', '' + (dv7 + rech));
                 continue;
             case '3':
-                dt.setAttribute('cx', '0');
-                dt.setAttribute('cy', '' + dv1);
+                dt.setAttribute('cx', '' + rech);
+                dt.setAttribute('cy', '' + (dv1 + rech));
                 i = '1';
                 break;
             case '4':
-                dt.setAttribute('cx', '' + dv7 * -fp);
-                dt.setAttribute('cy', '' + dv7);
+                dt.setAttribute('cx', '' + (dv7 * -fp + rech));
+                dt.setAttribute('cy', '' + (dv7 + rech));
                 continue;
             case '5':
-                dt.setAttribute('cx', '' + dv1 * -fp);
-                dt.setAttribute('cy', '0');
+                dt.setAttribute('cx', '' + (dv1 * -fp + rech));
+                dt.setAttribute('cy', '' + rech);
                 continue;
             case '6':
-                dt.setAttribute('cx', '' + dv7 * -fp);
-                dt.setAttribute('cy', '-' + dv7);
+                dt.setAttribute('cx', '' + (dv7 * -fp + rech));
+                dt.setAttribute('cy', '' + (-dv7 + rech));
                 i = '2';
                 break;
         }
         dt.setAttribute('r', '4');
-        var rv = 1 / 3 * hmx, hh = CCC.Rhv(hl + +i * rv, hmx), x = Math.cos(hh) * len, y = Math.sin(hh) * len * fp, s = 'M0 0L' + x + ' ' + y;
+        var rv = 1 / 3 * hmx, hh = CCC.Rhv(hl + +i * rv, hmx), x = Math.cos(hh) * len + rech, y = Math.sin(hh) * len * fp + rech, s = 'M' + rech + ' ' + rech + 'L' + x + ' ' + y;
         hh = CCC.Rhv(hl + rv * +i + rv * 0.5, hmx);
-        x = Math.cos(hh) * len;
-        y = Math.sin(hh) * len * fp;
+        x = Math.cos(hh) * len + rech;
+        y = Math.sin(hh) * len * fp + rech;
         s += 'L' + x + ' ' + y;
         hh = CCC.Rhv(hl + rv * +i + rv, hmx);
-        x = Math.cos(hh) * len;
-        y = Math.sin(hh) * len * fp;
+        x = Math.cos(hh) * len + rech;
+        y = Math.sin(hh) * len * fp + rech;
         s += 'L' + x + ' ' + y + 'Z';
         var pth = document.createElementNS(svgName, 'path');
         pth.setAttribute('d', s);
