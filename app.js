@@ -797,15 +797,18 @@ var CCC;
         function Page() {
         }
         Page.Ins = function () {
-            Palette.psyH = Math.random() * CCC.P2;
-            Palette.psyKH = Palette.psyH + Math.random() * 3 - 1.5;
-            Palette.psyKL = Math.random() * CCC.P2;
+            Page.RandPaleDef();
             Palette.OpLock = true;
             Palette.ligRev = !+localStorage.getItem('ligsw');
             Palette.rinHL = [0, 0];
             Palette.rinBez = new Bezier1D(0, 1, 0.5, true);
             Palette.rinBez.k1 = 0.15;
             Palette.rinBez.k2 = 0.5;
+        };
+        Page.RandPaleDef = function () {
+            Palette.psyH = Math.random() * CCC.P2;
+            Palette.psyKH = Palette.psyH + Math.random() * 3 - 1.5;
+            Palette.psyKL = Math.random() * CCC.P2;
         };
         Page.Start = function (data) {
             if (data && data.length) {
@@ -1506,15 +1509,18 @@ function MarkAddTag(data, dn) {
     svg.setAttribute('xmlns', svgName);
     svg.setAttribute('version', '1.1');
     svg.setAttribute('class', 'svcosvg');
-    svg.setAttribute('onclick', 'MarkAdd(\"' + data + '\");');
-    MarkCrt(svg, cs);
+    MarkCrt(svg, cs, data);
     coli.appendChild(svg);
     svCoPad.appendChild(coli);
 }
-function MarkCrt(svg, cs) {
-    var fp = cs[0].l < cs[2].l ? 1 : -1, rech = 35, hmx = CCC.P2, hl = fp > 0 ? 330 * CCC.pJtoH : 30 * CCC.pJtoH, len = 12;
+function MarkCrt(svg, cs, data) {
+    var fp = cs[0].l < cs[2].l ? 1 : -1, rech = 35, ds = fp > 0 ? 8 : 0, hmx = CCC.P2, hl = fp > 0 ? 330 * CCC.pJtoH : 30 * CCC.pJtoH, len = 12;
     for (var i in cs) {
         var co = cs[i], dv1 = 25, dv7 = 17.67767, dt = document.createElementNS(svgName, 'circle');
+        if (fp > 0)
+            ds--;
+        else
+            ds++;
         dt.setAttribute('class', 'svcosvgdot');
         dt.setAttribute('r', '3');
         dt.setAttribute('fill', '#' + co.bit);
@@ -1524,32 +1530,39 @@ function MarkCrt(svg, cs) {
             case '0':
                 dt.setAttribute('cx', '' + (dv7 * fp + rech));
                 dt.setAttribute('cy', '' + (-dv7 + rech));
+                dt.setAttribute('onclick', 'MarkAdd(\'' + data + '\',' + ds + ');');
                 break;
             case '1':
                 dt.setAttribute('cx', '' + (dv1 * fp + rech));
                 dt.setAttribute('cy', '' + rech);
+                dt.setAttribute('onclick', 'MarkAdd(\'' + data + '\',' + ds + ');');
                 continue;
             case '2':
                 dt.setAttribute('cx', '' + (dv7 * fp + rech));
                 dt.setAttribute('cy', '' + (dv7 + rech));
+                dt.setAttribute('onclick', 'MarkAdd(\'' + data + '\',' + ds + ');');
                 continue;
             case '3':
                 dt.setAttribute('cx', '' + rech);
                 dt.setAttribute('cy', '' + (dv1 + rech));
                 i = '1';
+                dt.setAttribute('onclick', 'MarkAdd(\'' + data + '\',' + ds + ');');
                 break;
             case '4':
                 dt.setAttribute('cx', '' + (dv7 * -fp + rech));
                 dt.setAttribute('cy', '' + (dv7 + rech));
+                dt.setAttribute('onclick', 'MarkAdd(\'' + data + '\',' + ds + ');');
                 continue;
             case '5':
                 dt.setAttribute('cx', '' + (dv1 * -fp + rech));
                 dt.setAttribute('cy', '' + rech);
+                dt.setAttribute('onclick', 'MarkAdd(\'' + data + '\',' + ds + ');');
                 continue;
             case '6':
                 dt.setAttribute('cx', '' + (dv7 * -fp + rech));
                 dt.setAttribute('cy', '' + (-dv7 + rech));
                 i = '2';
+                dt.setAttribute('onclick', 'MarkAdd(\'' + data + '\',' + ds + ');');
                 break;
         }
         dt.setAttribute('r', '4');
@@ -1565,11 +1578,12 @@ function MarkCrt(svg, cs) {
         var pth = document.createElementNS(svgName, 'path');
         pth.setAttribute('d', s);
         pth.setAttribute('fill', '#' + co.bit);
+        pth.setAttribute('onclick', 'MarkAdd(\"' + data + '\");');
         svg.appendChild(pth);
     }
 }
-function MarkAdd(data) {
-    var dn = +loadKV('#' + data);
+function MarkAdd(data, dn) {
+    dn = dn || +loadKV('#' + data);
     var h = CCC.Harmony.NewFromStrId(data + dn);
     h.bz.i.FindUniTest('i', 0.0001);
     h.bz.k.FindUniTest('k', 0.0001);
@@ -1601,9 +1615,7 @@ function ClearColors() {
 }
 function RefreshColors() {
     CCC.Harmony.ForTag(function (i) { RemovePath(i); });
-    CCC.Palette.psyH = Math.random() * CCC.P2;
-    CCC.Palette.psyKH = CCC.Palette.psyH + Math.random() * 3 - 1.5;
-    CCC.Palette.psyKL = Math.random() * CCC.P2;
+    CCC.Page.RandPaleDef();
     CCC.Page.Start();
 }
 var ligOn;
@@ -1699,7 +1711,7 @@ function GrpTagShow(p) {
 function DownloadColor() {
     var cont = GetColorEPS();
     var fn = 'Irisring-color.eps';
-    var bb = new Blob([cont], { type: "text/plain;charset=gb2312" });
+    var bb = new Blob([cont], { type: "application/postscript;charset=utf8" });
     saveAs(bb, fn);
 }
 function GetColorsSVG() {
