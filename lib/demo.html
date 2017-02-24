@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Irisring Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="irisring.gen.js"></script>
+  <style>
+    #code{
+      font-family: Consolas, Arial, 微软雅黑;
+    }
+    #view{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    #view div{
+      position: absolute;
+    }
+    #ctrl{
+      position: absolute;
+    }
+    [type=button]{
+      width: 100px;
+      height: 30px;
+    }
+  </style>
+</head>
+
+<body style="margin: 0">
+  <div id="view" class="b0">
+    <div class="b1" style="left:53vw;width:6vw;top:31vw;height:10vw;transform:skewX(-50deg)"></div>
+    <div class="b1" style="left:53vw;width:6vw;top:35vw;height:10vw;transform:skewX(-50deg)"></div>
+    <div class="b1" style="left:58.5vw;width:7vw;top:31vw;height:4.1vw;"></div>
+    <div class="b2" style="left:46.5vw;width:7vw;top:26vw;height:4vw;"></div>
+    <div class="b3" style="left:47vw;width:6vw;top:30vw;height:15vw;"></div>
+    <div class="b4" style="left:49vw;width:2vw;top:32vw;height:2vw;"></div>
+    <div class="b4" style="left:47vw;width:6vw;top:30vw;height:0.5vw;"></div>
+    <div class="b0" style="left:47vw;width:6vw;top:30vw;height:0.1vw;"></div>
+  </div>
+  <div id="ctrl">
+    <textarea id="code" spellcheck="false" style="width:425px;height:550px;margin:10px;"></textarea>
+    <div style="margin-left:10px">
+      <input type="button" value="Run" onclick="run()" style="margin:8px 0;width:430px;display:block">
+      <input type="button" value="Random" onclick="submit(sample.random)">
+      <input type="button" value="Config" onclick="submit(sample.config)">
+      <input type="button" value="Zip" onclick="submit(sample.unzip)">
+      <input type="button" value="Animate" onclick="anima()" style="margin-left: 15px;">
+    </div>
+  </div>
+  <style id="style"></style>
+  <script>
+    var code = document.getElementById('code');
+    var view = document.getElementById('view');
+    var style = document.getElementById('style');
+    var config = '';
+    var animated = false;
+    var sample = {
+      random: `
+ir = irisring.setup({light: true})({seg: 5});
+
+`,
+      unzip:`
+ir = irisring('2qnnau7gau6tednrv8ssf95');
+
+`,
+      config: `
+ir = irisring({
+  // 基点色环角度
+  baseHue: 90,
+  // 分段数
+  seg: 5,
+  // 控制点坐标
+  cenPoint: {x: -0.86, y: -0.5},
+  // 末端坐标
+  endPoint: {x: 0.86, y: -0.5},
+  // 取色点映射偏移
+  hueMap: {i: 0.172, k: 0.288, o: 0.768},
+  // 亮度映射偏移
+  lightMap: {i: 1, k: 0.9, o: 0.46}
+});
+
+`,
+      showBox: `//静态渲染
+var cs = ir.colors;
+var l = cs[0].l > cs[cs.length-1].l;
+var styleText = 
+'.b0{background-color:#'+ cs[l?0:4].hex +'}' +
+'.b1{background-color:#'+ cs[l?1:3].hex +'}' +
+'.b2{background-color:#'+ cs[l?2:2].hex +'}' +
+'.b3{background-color:#'+ cs[l?3:1].hex +'}' +
+'.b4{background-color:#'+ cs[l?4:0].hex +'}';
+style.innerHTML = styleText;`,
+      animate: `//动画渲染
+if(!loopId) loop();
+function loop() {
+  // 循环修改线段中点
+  ir.cenPoint.rotate(1);
+
+  var cs = ir.colors;
+  var l = cs[0].l > cs[cs.length-1].l;
+  var styleText = 
+  '.b0{background-color:#'+ cs[l?0:4].hex +'}' +
+  '.b1{background-color:#'+ cs[l?1:3].hex +'}' +
+  '.b2{background-color:#'+ cs[l?2:2].hex +'}' +
+  '.b3{background-color:#'+ cs[l?3:1].hex +'}' +
+  '.b4{background-color:#'+ cs[l?4:0].hex +'}';
+  style.innerHTML = styleText;
+  loopId = requestAnimationFrame(loop);
+}`
+    }
+    function submit(text) {
+      code.value = text + (animated ? sample.animate : sample.showBox);
+      run(text + (animated ? '' : sample.showBox));
+    }
+    function anima(){
+      if(!code.value) return;
+      animated = !animated;
+      if(animated) {
+        code.value = code.value.split('//静态渲染')[0] + sample.animate;
+        run(sample.animate);
+      } else { 
+        code.value = code.value.split('//动画渲染')[0] + sample.showBox;
+        run(sample.showBox);
+      }
+    }
+    function run(text){
+      if(loopId) {cancelAnimationFrame(loopId); loopId = 0;}
+      eval(text || code.value);
+    }
+    loopId = 0;
+  </script>
+</body>
+
+</html>
