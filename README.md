@@ -26,7 +26,9 @@
 
 ## 使用方法
 
-> ### 参考 -> [Demo](https://ectx.github.io/Irisring/lib/demo.html)
+### 参考 -> [Demo](https://ectx.github.io/Irisring/lib/demo.html)
+
+——————
 
 ## irisring() 色组生成函数
 #### 传入 object | string | null
@@ -71,6 +73,8 @@ irisring({
 ```javascript
 irisring('2qnnau7gau6tednrv8ssf95')
 ```
+
+——————
 
 ## HarmonyData 色组对象
 由 `irisring()` 返回的色组对象
@@ -170,6 +174,8 @@ var ir = irisring({
 ir.zip;             //  "2q7iaukaem5c90o0v8s4ec5"
 ```
 
+——————
+
 ## Point.prototype.rotate() 点坐标旋转函数
 #### 传入 number, {x, y} | [x, y] | null
 #### 返回 Point
@@ -189,6 +195,8 @@ ir.cenPoint.rotate(90, [0.25, 0.25]);
 ir.cenPoint.x;      //  1
 ir.cenPoint.y;      //  -0.5
 ```
+
+——————
 
 ## irisring.setup() 全局配置函数
 #### 传入 object | null
