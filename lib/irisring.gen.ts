@@ -473,7 +473,7 @@ window['irisring'] = (function () {
       else return new IrisringFn.Harmony(
         opt.cenPoint ? (opt.cenPoint.length ? opt.cenPoint : [opt.cenPoint.x, opt.cenPoint.y]) : undefined,
         IrisringFn.Palette.radMean ? opt.baseHue : undefined,
-        opt.endpoint ? (opt.endPoint.length ? opt.endPoint : [opt.endPoint.x, opt.endPoint.y]) : undefined, opt.seg,
+        opt.endPoint ? (opt.endPoint.length ? opt.endPoint : [opt.endPoint.x, opt.endPoint.y]) : undefined, opt.seg,
         opt.hueMap ? (opt.hueMap.length ? opt.hueMap : [opt.hueMap.i, opt.hueMap.k, opt.hueMap.o]) : undefined,
         opt.lightMap ? (opt.lightMap.length ? opt.lightMap : [opt.lightMap.i, opt.lightMap.k, opt.lightMap.o]) : undefined,
         IrisringFn.Palette.radMean ? undefined : (opt.baseHue || opt.baseHue === 0 ? opt.baseHue / 3 : undefined)).data;

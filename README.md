@@ -51,7 +51,7 @@ irisring({
   cenPoint: {x: -0.86, y: -0.5},
 
   // 末端坐标（bezier曲线可自由活动的一端）
-  endPoint: {x: 0.86, y: -0.5},
+  endPoint: {x: 0.5, y: -0.1},
 
   // 取色点映射偏移
   hueMap: {i: 0.172, k: 0.288, o: 0.768},
@@ -162,12 +162,12 @@ var ir = irisring({
   baseHue: 90,
   seg: 5,
   cenPoint: [-0.86, y: -0.5],
-  endPoint: [0.86, y: -0.5],
+  endPoint: [0.5, y: -0.1],
   hueMap: [0.172, 0.288, 0.768],
   lightMap: [1, 0.9, 0.46]
 });
 
-ir.zip;             // 2q7iaufkfk5c90o0v8s4ec5
+ir.zip;             //  "2q7iaukaem5c90o0v8s4ec5"
 ```
 
 ## Point.prototype.rotate() 点坐标旋转函数
