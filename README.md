@@ -5,7 +5,7 @@
 
 # 配色器
 
-[https://ectx.github.io/Irisring](https://ectx.github.io/Irisring/?irco=2q7gaunnau5c90o0v8s4eb4,42fjp0nnau2k9nk3v8v8mq6,2qnnau7gau6tednrv8ssf94)
+[https://ectx.github.io/Irisring](https://ectx.github.io/Irisring/)
 
 ## !! :
 - 新创建的色组，会根据背景明暗建立为亮色或暗色;
